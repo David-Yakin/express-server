@@ -93,10 +93,10 @@ In the request body you will need to provide an object with the following keys a
 
 #### Response
 
-If the user is in the database and the password sent is correct, The response will be a the following string with status code 201
+If the user is in the database and the password sent is correct, The response will be a like the following string with status code 201
 
 ```
-You are logged in!
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxZTIwYWQ2MC01NjA0LTExZWUtYmM4OC01MTMzYTRmNGQyZjQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2OTUxMTI4NDJ9.OP1MXC4m8XyNS3zzuIeJyme8hopRRrbnlu3Qg7jNmsw
 ```
 
 #### API for Information about all the users
@@ -107,6 +107,9 @@ You are logged in!
 
 #### Response
 
+- You will need to provide a token to get an answer from this api
+- You will need to be Admin type user to get an answer from this api
+
 The response will be an array of users
 
 #### API for Information about a user
@@ -116,6 +119,9 @@ The response will be an array of users
 ```
 
 ### Request
+
+- You will need to provide a token to get an answer from this api
+- You will need to be the registered user or Admin type user to get an answer from this api
 
 #### API for Updating User information
 
@@ -135,6 +141,8 @@ In the request body you will need to provide an object with the following keys a
 
 - The user "password" must be at least nine characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&\*-
 - "email" must be a standard email
+- You will need to provide a token to get an answer from this api
+- You will need to be the registered user to get an answer from this api
 
 #### API for deleting a user
 
@@ -142,11 +150,21 @@ In the request body you will need to provide an object with the following keys a
   DELETE /api/users/:id
 ```
 
+### Request
+
+- You will need to provide a token to get an answer from this api
+- You will need to be the registered user or Admin type user to get an answer from this api
+
 #### API for adding a product to a user
 
 ```http
   POST /api/users/add-product/:id?product=<<productName>>
 ```
+
+### Request
+
+- You will need to provide a token to get an answer from this api
+- You will need to be an admin type user to get an answer from this api
 
 #### Response
 
