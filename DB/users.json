@@ -2,23 +2,21 @@
   "users": [
     {
       "email": "regular@gmail.com",
-      "password": "$2a$10$kQEEuFvvoX8D48Plet3ro.r9obm0YWFDiaMdT2V1rzaZ.mY9yo/1S",
-      "_id": "03e09c10-2186-11ee-a0cb-5bab21a5590a"
+      "password": "$2a$10$GeVi/RRstUE8ZmxYzxNEjOPU9IsBCG8G0h0Ykr8s.e8p1K76wGaxC",
+      "isAdmin": false,
+      "_id": "1da9cfb0-5604-11ee-a849-b9689e3332b0"
     },
     {
       "email": "business@gmail.com",
-      "password": "$2a$10$ALKb/EaCx98YmJBiOVJ8W.zD.LxJ47Yk.xJTuD.ZwQNMCu.K6SC8.",
-      "_id": "03ebbfa0-2186-11ee-a0cb-5bab21a5590a"
+      "password": "$2a$10$.TprdCdLdzFZ7CanNCE54eBGw6h6yc4ybJFeskSBqrh64hdESL6Ju",
+      "isAdmin": false,
+      "_id": "1db408e0-5604-11ee-a849-b9689e3332b0"
     },
     {
       "email": "admin@gmail.com",
-      "password": "$2a$10$s77z5.FPDrNHz4dad84oK.u4M8BiyFZWku.47bH5UOJL/WztS.qVi",
-      "_id": "03f75860-2186-11ee-a0cb-5bab21a5590a"
-    },
-    {
-      "email": "test@gmail.com",
-      "password": "Aa1234!",
-      "_id": "12ddd310-5005-11ee-98a5-6b460fe7b768"
+      "password": "$2a$10$HNB5dA8iI8NIoUXAP7wL2.KVDSVqya64TrNyTESi3KdO2gqbxNLuK",
+      "isAdmin": true,
+      "_id": "1e20ad60-5604-11ee-bc88-5133a4f4d2f4"
     }
   ]
 }

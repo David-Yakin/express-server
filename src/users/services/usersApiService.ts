@@ -1,4 +1,4 @@
-import UserInterface from "../interfaces/UserInterface";
+import UserInterface, { LoginInterface } from "../interfaces/UserInterface";
 import { v1 as uuid1 } from "uuid";
 import { comparePassword, generateUserPassword } from "../helpers/bcrypt";
 import {
@@ -6,9 +6,9 @@ import {
   modifyCollection,
 } from "../../dataAccess/jsonfileDAL";
 import chalk from "chalk";
-import userValidation from "../models/joi/userValidation";
 import { getDataFromDummy } from "../../dataAccess/dummyjson";
 import { addDataToJsonPlaceHolder } from "../../dataAccess/jsonPlaceHolder";
+import { generateAuthToken } from "../../auth/providers/jwt";
 
 type UserResult = Promise<UserInterface | null>;
 
@@ -50,15 +50,15 @@ export const register = async (user: UserInterface): UserResult => {
     const userRegistered = users.find(
       (userInDB: Record<string, unknown>) => userInDB.email === user.email
     );
-    if (userRegistered) throw new Error("This user is allready registered!");
+    if (userRegistered) throw new Error("This user is already registered!");
 
     user._id = uuid1();
     user.password = generateUserPassword(user.password);
+    user.isAdmin = user.isAdmin || false;
     users.push({ ...user });
     await modifyCollection("users", users);
     return user;
   } catch (error) {
-    console.log(chalk.redBright(error));
     return Promise.reject(error);
   }
 };
@@ -110,7 +110,7 @@ export const deleteUser = async (userId: string) => {
   }
 };
 
-export const login = async (userFromClient: UserInterface) => {
+export const login = async (userFromClient: LoginInterface) => {
   try {
     const users = (await getCollectionFromJsonFile(
       "users"
@@ -127,7 +127,8 @@ export const login = async (userFromClient: UserInterface) => {
     if (!comparePassword(userFromClient.password, userCopy.password))
       throw new Error("The email or password is incorrect!");
 
-    return "You are logged in!";
+    const token = generateAuthToken(userInDB);
+    return token;
   } catch (error) {
     console.log(chalk.redBright(error));
     return Promise.reject(error);

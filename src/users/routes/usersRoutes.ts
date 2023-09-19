@@ -8,14 +8,15 @@ import {
   handleLogin,
   handleAddProductToUser,
 } from "../controllers/usersControllers";
+import { auth } from "../../auth/providers/jwt";
 const router = express.Router();
 
-router.get("/", handleGetUsers);
-router.get("/:id", handleGetUser);
+router.get("/", auth, handleGetUsers);
+router.get("/:id", auth, handleGetUser);
 router.post("/", handleUserRegistration);
-router.put("/:id", handleEditUser);
-router.delete("/:id", handleDeleteUser);
+router.put("/:id", auth, handleEditUser);
+router.delete("/:id", auth, handleDeleteUser);
 router.post("/login", handleLogin);
-router.post("/add-product/:id", handleAddProductToUser);
+router.post("/add-product/:id", auth, handleAddProductToUser);
 
 export default router;
