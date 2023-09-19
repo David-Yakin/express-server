@@ -99,6 +99,8 @@ If the user is in the database and the password sent is correct, The response wi
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxZTIwYWQ2MC01NjA0LTExZWUtYmM4OC01MTMzYTRmNGQyZjQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2OTUxMTI4NDJ9.OP1MXC4m8XyNS3zzuIeJyme8hopRRrbnlu3Qg7jNmsw
 ```
 
+### ! This token must be attached as a value to the x-auth-token key in the Request.headers for all requests that require a token
+
 #### API for Information about all the users
 
 ```http
