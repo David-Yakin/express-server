@@ -4,11 +4,12 @@ import { comparePassword, generateUserPassword } from "../helpers/bcrypt";
 import {
   getCollectionFromJsonFile,
   modifyCollection,
-} from "../../dataAccess/jsonfileDAL";
+} from "../../dataAccessLayer/jsonfileDAL";
 import chalk from "chalk";
-import { getDataFromDummy } from "../../dataAccess/dummyjson";
-import { addDataToJsonPlaceHolder } from "../../dataAccess/jsonPlaceHolder";
+import { getDataFromDummy } from "../../dataAccessLayer/dummyjson";
+import { addDataToJsonPlaceHolder } from "../../dataAccessLayer/jsonPlaceHolder";
 import { generateAuthToken } from "../../auth/providers/jwt";
+import { getProductFromPG } from "../../dataAccessLayer/postgreSQL";
 
 type UserResult = Promise<UserInterface | null>;
 
@@ -18,7 +19,6 @@ export const getUsers = async () => {
     if (!users) throw new Error("no users in the database");
     return users;
   } catch (error) {
-    console.log(chalk.redBright(error));
     return Promise.reject(error);
   }
 };
@@ -36,7 +36,6 @@ export const getUser = async (userId: string) => {
     if (!userFromDB) throw new Error("No user with this id in the database!");
     return userFromDB;
   } catch (error) {
-    console.log(chalk.redBright(error));
     return Promise.reject(error);
   }
 };
@@ -84,7 +83,6 @@ export const editUser = async (
       throw new Error("Oops... something went wrong Could not Edit this user");
     return userToUpdate;
   } catch (error) {
-    console.log(chalk.redBright(error));
     return Promise.reject(error);
   }
 };
@@ -105,7 +103,6 @@ export const deleteUser = async (userId: string) => {
 
     return user;
   } catch (error) {
-    console.log(chalk.redBright(error));
     return Promise.reject(error);
   }
 };
@@ -130,7 +127,6 @@ export const login = async (userFromClient: LoginInterface) => {
     const token = generateAuthToken(userInDB);
     return token;
   } catch (error) {
-    console.log(chalk.redBright(error));
     return Promise.reject(error);
   }
 };
@@ -144,10 +140,15 @@ export const addProductToUser = async (
     if (!user) throw new Error("Could not find this user!");
 
     const data = await getDataFromDummy();
-    if (!data?.data) throw new Error("Could not get the data!");
-    const { data: dataFromDummy } = data;
 
-    const productFromDB = dataFromDummy.products.find(
+    if (!data) {
+      const productFromPG = await getProductFromPG(productFromClient);
+      return Promise.resolve(productFromPG);
+    }
+
+    const { products } = data;
+
+    let productFromDB = products.find(
       (product: Record<string, unknown>) =>
         typeof product.title === "string" &&
         product.title
@@ -156,7 +157,11 @@ export const addProductToUser = async (
           .includes(productFromClient.toLowerCase().trim())
     );
 
-    if (!productFromDB) throw new Error("Could not found this product");
+    if (!productFromDB) {
+      const productFromPG = await getProductFromPG(productFromClient);
+      productFromDB = productFromPG;
+    }
+
     user.product = productFromDB;
 
     const userFromJsonPlaceHolder = await addDataToJsonPlaceHolder(
@@ -168,8 +173,6 @@ export const addProductToUser = async (
 
     return userFromJsonPlaceHolder;
   } catch (error) {
-    if (error && typeof error === "object" && "message" in error)
-      console.log(chalk.redBright(error.message));
     return Promise.reject(error);
   }
 };

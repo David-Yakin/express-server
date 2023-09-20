@@ -140,6 +140,15 @@ export const handleAddProductToUser = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error && error.message.match(/You must be/g))
       return handleError(res, error, 403);
+    if (
+      error instanceof Error &&
+      error.message === "Request failed with status code 400"
+    )
+      return handleError(
+        res,
+        new Error("Could not find this product in the database")
+      );
+
     if (error instanceof Error) return handleError(res, error);
   }
 };

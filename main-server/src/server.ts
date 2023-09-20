@@ -5,8 +5,9 @@ import chalk from "chalk";
 import morgan from "./logger/morgan";
 import { generateInitialUsers } from "./initialData/initialDataService";
 import cors from "./cors/cors";
-import connectToMongoDb from "./dataAccess/mongoDb";
+import connectToMongoDb from "./dataAccessLayer/mongoDb";
 import { handleServerError } from "./utils/handleErrors";
+import { connectToPG } from "./dataAccessLayer/postgreSQL";
 
 app.use(morgan);
 app.use(cors);
@@ -19,15 +20,22 @@ const PORT = 8181;
 app.listen(PORT, () => {
   console.log(chalk.blueBright(`Server listening on port: ${PORT}`));
 
-  connectToMongoDb()
-    .then((message) => {
-      console.log(chalk.yellowBright(message));
-    })
-    .catch((error) =>
+  connectToPG()
+    .then((message) => console.log(chalk.yellowBright(message)))
+    .catch((error) => {
       console.log(
-        chalk.magentaBright("Connect to mongoDB Error: ", error.message)
-      )
-    );
+        chalk.redBright("Connect to PostgreSQL server Error: ", error.message)
+      );
+    });
+  // connectToMongoDb()
+  //   .then((message) => {
+  //     console.log(chalk.yellowBright(message));
+  //   })
+  //   .catch((error) =>
+  //     console.log(
+  //       chalk.magentaBright("Connect to mongoDB Error: ", error.message)
+  //     )
+  //   );
 
   generateInitialUsers()
     .then(() => console.log(chalk.magentaBright("Initial Users Created!")))

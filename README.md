@@ -8,6 +8,24 @@ Download or clone the project from this repo
 
 ### Download the node_modules
 
+Enter the main-server folder by typing the following command in the terminal/CMD in the project root folder
+
+```
+cd main-server
+```
+
+Enter the following command in the cmd / terminal in the root folder of this project
+
+```
+npm i
+```
+
+Open a new terminal/CMD in the project's root folder and enter the northwind-store-server folder by typing the following command
+
+```
+cd northwind-store-server
+```
+
 Enter the following command in the cmd / terminal in the root folder of this project
 
 ```
@@ -16,7 +34,7 @@ npm i
 
 ### Run the typescript compiler
 
-Run the Typescript compiler using the following command in the cmd
+Run the following command in any of the terminals/CMD you opened to start the typescript compiler
 
 ```
 tsc -w
@@ -24,7 +42,7 @@ tsc -w
 
 ### Run the server in development mode
 
-Open another cmd / terminal in the root folder and run the server in development mode using the following command in the cmd
+Open more terminals / CMD, one inside the main-server folders and the other inside the northwind-store-server folder and run the following command
 
 ```
 npm run dev
@@ -34,7 +52,13 @@ npm run dev
 - The page will reload if you make edits
 - You should see the following text in the cmd / terminal
 
-![Alt text](./public/images/image.png)
+#### In the northwind server terminal you should see the following print
+
+![Alt text](./images/connectToPGServer.png)
+
+#### In the main server terminal you should see the following print
+
+![Alt text](./images/main-server.png)
 
 ## Available Routes
 
